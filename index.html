@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Group Chat Generator</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =========================
+         EDITOR
+    ========================== -->
+
+    <section class="editor">
+
+        <div class="editor-header">
+            <h1>Group Chat Generator</h1>
+            <p>Create your conversation, preview it, or record the playback.</p>
+        </div>
+
+
+        <!-- GROUP SETTINGS -->
+
+        <div class="editor-card">
+
+            <h2>Group Settings</h2>
+
+            <label for="groupName">
+                Group Name
+            </label>
+
+            <input
+                id="groupName"
+                type="text"
+                value="4 People"
+                placeholder="Group name"
+            >
+
+
+            <label for="conversationDate">
+                Date / Time Label
+            </label>
+
+            <input
+                id="conversationDate"
+                type="text"
+                value="Today 12:57 AM"
+                placeholder="Today 12:57 AM"
+            >
+
+        </div>
+
+
+        <!-- MEMBERS -->
+
+        <div class="editor-card">
+
+            <h2>Group Members</h2>
+
+            <div class="member-input-row">
+
+                <input
+                    id="memberName"
+                    type="text"
+                    placeholder="Member name"
+                >
+
+                <button
+                    id="addMemberBtn"
+                    type="button"
+                >
+                    + Add
+                </button>
+
+            </div>
+
+
+            <div
+                id="memberList"
+                class="member-list"
+            ></div>
+
+        </div>
+
+
+        <!-- MESSAGE CREATOR -->
+
+        <div class="editor-card">
+
+            <h2>Add Message</h2>
+
+
+            <label for="senderSelect">
+                Sender
+            </label>
+
+            <select id="senderSelect"></select>
+
+
+            <label for="messageInput">
+                Message
+            </label>
+
+            <textarea
+                id="messageInput"
+                placeholder="Type a message..."
+            ></textarea>
+
+
+            <label class="checkbox-label">
+
+                <input
+                    id="typingToggle"
+                    type="checkbox"
+                    checked
+                >
+
+                Show typing indicator first
+
+            </label>
+
+
+            <button
+                id="addMessageBtn"
+                class="primary-btn"
+                type="button"
+            >
+                Add Message
+            </button>
+
+        </div>
+
+
+        <!-- SCRIPT -->
+
+        <div class="editor-card">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Conversation Script</h2>
+                    <p>Messages play from top to bottom.</p>
+                </div>
+
+                <button
+                    id="clearMessagesBtn"
+                    class="danger-btn"
+                    type="button"
+                >
+                    Clear
+                </button>
+
+            </div>
+
+
+            <div
+                id="messageQueue"
+                class="message-queue"
+            ></div>
+
+        </div>
+
+
+        <!-- PLAYBACK -->
+
+        <div class="editor-card">
+
+            <h2>Playback</h2>
+
+
+            <label for="speedSelect">
+                Speed
+            </label>
+
+            <select id="speedSelect">
+
+                <option value="2500">
+                    Slow
+                </option>
+
+                <option
+                    value="1500"
+                    selected
+                >
+                    Normal
+                </option>
+
+                <option value="700">
+                    Fast
+                </option>
+
+            </select>
+
+
+            <label class="checkbox-label">
+
+                <input
+                    id="soundToggle"
+                    type="checkbox"
+                    checked
+                >
+
+                Message sounds
+
+            </label>
+
+
+            <div class="playback-grid">
+
+                <button
+                    id="playBtn"
+                    class="blue-btn"
+                    type="button"
+                >
+                    ▶ Play
+                </button>
+
+                <button
+                    id="pauseBtn"
+                    class="gray-btn"
+                    type="button"
+                >
+                    ⏸ Pause
+                </button>
+
+                <button
+                    id="restartBtn"
+                    class="gray-btn"
+                    type="button"
+                >
+                    ↻ Restart
+                </button>
+
+            </div>
+
+
+            <button
+                id="recordBtn"
+                class="record-btn"
+                type="button"
+            >
+                ● Record & Play
+            </button>
+
+
+            <div
+                id="recordingStatus"
+                class="recording-status"
+            >
+                Ready to record
+            </div>
+
+
+            <button
+                id="downloadBtn"
+                class="download-btn"
+                type="button"
+                disabled
+            >
+                ↓ Download Video
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         PHONE PREVIEW
+    ========================== -->
+
+    <section class="preview-area">
+
+        <div class="preview-label">
+            <span></span>
+            LIVE PREVIEW
+        </div>
+
+
+        <div
+            id="phone"
+            class="iphone"
+        >
+
+            <!-- STATUS -->
+
+            <div class="status-bar">
+
+                <div id="phoneTime">
+                    9:41
+                </div>
+
+
+                <div class="status-icons">
+
+                    <div class="signal">
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </div>
+
+                    <div class="wifi">
+                        ◔
+                    </div>
+
+                    <div class="battery">
+                        <span></span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- HEADER -->
+
+            <div class="chat-header">
+
+                <div class="back-area">
+
+                    <span class="back-arrow">
+                        ‹
+                    </span>
+
+                    <span class="unread">
+                        92
+                    </span>
+
+                </div>
+
+
+                <div class="group-info">
+
+                    <div
+                        id="headerAvatars"
+                        class="header-avatars"
+                    ></div>
+
+                    <div
+                        id="phoneGroupName"
+                        class="phone-group-name"
+                    >
+                        4 People
+                        <span>›</span>
+                    </div>
+
+                </div>
+
+
+                <div class="video-icon">
+
+                    <span class="video-body"></span>
+
+                    <span class="video-point"></span>
+
+                </div>
+
+            </div>
+
+
+            <!-- CHAT -->
+
+            <div
+                id="chatArea"
+                class="chat-area"
+            ></div>
+
+
+            <!-- COMPOSER -->
+
+            <div class="composer">
+
+                <button
+                    class="plus-button"
+                    type="button"
+                >
+                    +
+                </button>
+
+                <div class="fake-input">
+                    iMessage
+                </div>
+
+                <div class="mic">
+                    ♩
+                </div>
+
+            </div>
+
+
+            <div class="home-indicator"></div>
+
+        </div>
+
+
+        <!--
+            Hidden canvas used for video recording.
+            The video is drawn here frame by frame.
+        -->
+
+        <canvas
+            id="recordCanvas"
+            width="780"
+            height="1600"
+        ></canvas>
+
+    </section>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
